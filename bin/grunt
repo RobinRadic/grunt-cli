@@ -5,14 +5,12 @@
 process.title = 'grunt';
 
 var path = require('path');
-
+///var tildify = require('tildify');
+var interpret = require('interpret');
+var v8flags = require('v8flags');
+var chalk = require('chalk');
+var Liftoff = require('liftoff');
 var fs = require('fs');
-var tsPath = path.join(process.cwd(), 'Gruntfile.ts');
-if ( fs.existsSync(tsPath) ) {
-    process.argv.push('--gruntfile');
-    process.argv.push(tsPath);
-    require('typescript-require');
-}
 
 
 // Especially badass external libs.
@@ -23,6 +21,31 @@ var resolve = require('resolve').sync;
 var options = require('../lib/cli').options;
 var completion = require('../lib/completion');
 var info = require('../lib/info');
+
+
+/// radic
+var tsPath = path.join(process.cwd(), 'Gruntfile.ts');
+if ( fs.existsSync(tsPath) ) {
+    process.argv.push('--gruntfile');
+    process.argv.push(tsPath);
+    //require('typescript-require');
+}
+var cli = new Liftoff({
+    name: 'grunt',
+    completions: completion,
+    extensions: interpret.jsVariants,
+    v8flags: v8flags,
+    moduleName: 'grunt',
+    configName: 'gruntfile'
+});
+cli.on('require', function(name) {
+    console.log('Requiring external module', chalk.magenta(name));
+});
+
+cli.on('requireFail', function(name) {
+    console.log(chalk.red('Failed to load external module'), chalk.magenta(name));
+});
+
 
 
 var basedir = process.cwd();
@@ -57,5 +80,55 @@ try {
         info.fatal('Unable to find local grunt.', 99);
     }
 }
+
+
+
+function handleArguments(env) {
+    console.log(require('util').inspect(env, {colors:true}));
+    if (!env.modulePath) {
+        console.log(
+            chalk.red('Local gulp not found in')
+        );
+        console.log(chalk.red('Try running: npm install gulp'));
+        process.exit(1);
+    }
+
+    if (!env.configPath) {
+        console.log(chalk.red('No gulpfile found'));
+        process.exit(1);
+    }
+
+    // Chdir before requiring gulpfile to make sure
+    // we let them chdir as needed
+    if (process.cwd() !== env.cwd) {
+        process.chdir(env.cwd);
+        console.log(
+            'Working directory changed to',
+            chalk.magenta(env.cwd)
+        );
+    }
+
+    // This is what actually loads up the gulpfile
+    require(env.configPath);
+    //console.log('Using gulpfile', chalk.magenta(env.configPath));
+
+    var gulpInst = require(env.modulePath);
+    gulpInst.cli();
+    //logEvents(gulpInst);
+    //
+    //process.nextTick(function() {
+    //    if (simpleTasksFlag) {
+    //        return logTasksSimple(env, gulpInst);
+    //    }
+    //    if (tasksFlag) {
+    //        return logTasks(env, gulpInst);
+    //    }
+    //    gulpInst.start.apply(gulpInst, toRun);
+    //});
+}
+cli.launch({
+    cwd: process.cwd()
+    //require: argv.require
+}, handleArguments);
 // Everything looks good. Require local grunt and run it.
-require(gruntpath).cli();
+//require(gruntpath).cli();
