@@ -13,7 +13,6 @@ if ( fs.existsSync(tsPath) ) {
     process.argv.push(tsPath);
     require('typescript-require');
 }
-console.log(process.argv);
 
 
 // Especially badass external libs.
