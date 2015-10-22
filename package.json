@@ -1,9 +1,9 @@
 {
-  "name": "grunt-cli",
-  "description": "The grunt command line interface",
+  "name": "grunt-cli-ts",
+  "description": "grunt-cli that can handle typescript Gruntfile.ts and javascript",
   "version": "0.1.13",
   "author": "Grunt Team",
-  "repository": "gruntjs/grunt-cli",
+  "repository": "RobinRadic/grunt-cli",
   "license": "MIT",
   "engines": {
     "node": ">=0.10.0"
@@ -18,7 +18,8 @@
   "dependencies": {
     "findup-sync": "^0.2.1",
     "nopt": "^3.0.1",
-    "resolve": "^1.1.0"
+    "resolve": "^1.1.0",
+    "typescript-require": "^0.2.7"
   },
   "devDependencies": {
     "grunt": "^0.4.5",
