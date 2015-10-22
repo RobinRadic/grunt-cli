@@ -84,7 +84,7 @@ try {
 
 
 function handleArguments(env) {
-    console.log(require('util').inspect(env, {colors:true}));
+   // console.log(require('util').inspect(env, {colors:true}));
     if (!env.modulePath) {
         console.log(
             chalk.red('Local gulp not found in')
