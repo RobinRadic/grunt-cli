@@ -17,8 +17,12 @@
   "preferGlobal": true,
   "dependencies": {
     "findup-sync": "^0.2.1",
+    "interpret": "^1.0.0",
+    "liftoff": "^2.2.0",
     "nopt": "^3.0.1",
-    "resolve": "^1.1.0"
+    "resolve": "^1.1.0",
+    "ts-node": "^0.5.5",
+    "v8flags": "^2.0.11"
   },
   "devDependencies": {
     "grunt": "^0.4.5",
