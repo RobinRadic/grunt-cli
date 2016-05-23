@@ -1,7 +1,7 @@
 {
   "name": "grunt-cli-extra",
   "description": "grunt-cli that can handle .ts, .coffee, etc Gruntfiles",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "author": "Grunt Team",
   "repository": "RobinRadic/grunt-cli",
   "license": "MIT",
@@ -16,6 +16,7 @@
   },
   "preferGlobal": true,
   "dependencies": {
+    "chalk": "^1.1.3",
     "findup-sync": "^0.2.1",
     "interpret": "^1.0.0",
     "liftoff": "^2.2.0",
