@@ -58,7 +58,15 @@ if ( 'completion' in options ) {
 } else if ( options.version ) {
     info.version();
 } else if ( options.gruntfile ) { //Note: if both `gruntfile` and `base` are set, use `gruntfile`
-    basedir = path.resolve(path.dirname(options.gruntfile));
+    
+    var gruntfile;
+    options.argv.original.forEach(function(arg, i){
+        if(arg === '--gruntfile'){
+            gruntfile = options.argv.original[i + 1];
+        }
+    });
+    basedir = path.resolve(path.dirname(gruntfile));
+    
 } else if ( options.base ) {
     basedir = path.resolve(options.base);
 }
